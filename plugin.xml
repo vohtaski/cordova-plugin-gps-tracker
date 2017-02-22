@@ -10,7 +10,17 @@
         <param name="android-package" value="com.android.plugins.GpsTracker"/>
       </feature>
     </config-file>
-    <config-file parent="/*" target="AndroidManifest.xml"/>
+    <config-file parent="/*" target="AndroidManifest.xml">
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    </config-file>
     <source-file src="src/android/GpsTracker.java" target-dir="src/com.android.plugins/GpsTracker"/>
+  </platform>
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="GpsTracker">
+        <param name="ios-package" value="GpsTracker"/>
+      </feature>
+    </config-file>
+    <source-file src="src/ios/GpsTracker.m"/>
   </platform>
 </plugin>
