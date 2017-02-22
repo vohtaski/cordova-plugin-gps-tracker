@@ -9,23 +9,21 @@ and minimal distance between two data points.
 ## Installation
 
 ```
-cordova plugin add https://github.com/pmwisdom/cordova-background-geolocation-services.git --save
+cordova plugin add https://github.com/vohtaski/cordova-plugin-gps-tracker.git --save
 ```
 
 ## How to use
 
-This plugin exports an object at
+This plugin exports an object `window.plugins.GpsTracker`
 
 ```js
-window.plugins.GpsTracker
-
 // Get plugin
 var GpsTracker = window.plugins.GpsTracker;
 
 // Congfigure Plugin
 GpsTracker.configure({
-     distanceFilter: 5, // (Meters) How far you must move from the last point to trigger a location update
-     interval: 9000, // (Milliseconds) Requested Interval in between location updates.
+  distanceFilter: 5, // (Meters) How far you must move from the last point to trigger a location update
+  interval: 9000, // (Milliseconds) Requested Interval in between location updates.
 });
 
 GpsTracker.start();
