@@ -27,11 +27,11 @@ import android.os.Bundle;
 public class GpsTracker extends CordovaPlugin implements LocationListener {
   private static final String TAG = "GpsTrackerPlugin";
 
-  private String interval = "1000";
-  private String isDebugging = "false";
+  private long interval = 2000;
+  private float distanceFilter = 5.0f;
+  private boolean isDebugging = false;
 
   private CallbackContext callbackContext;  // Keeps track of the JS callback context.
-  private CallbackContext locationUpdateCallback = null;
 
   private LocationManager locationManager;
 
@@ -54,17 +54,18 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
 
     if (action.equals("configure")) {
       result = true;
+      this.callbackContext = callbackContext;
       try {
-        // [interval, debug]
-        this.interval = args.getString(0);
-        this.isDebugging = args.getString(1);
+        // [interval, distanceFilter, debug]
+        this.interval = Long.parseLong(args.getString(0));
+        this.distanceFilter = Float.parseFloat(args.getString(1));
+        this.isDebugging = Boolean.parseBoolean(args.getString(2));
       } catch (JSONException e) {
         Log.d(TAG, "Json Exception" + e);
         callbackContext.error("JSON Exception" + e.getMessage());
       }
     } else if (action.equals("start")) {
       result = true;
-      locationUpdateCallback = callbackContext;
       this.start(callbackContext);
     } else if (action.equals("stop")) {
       result = true;
@@ -74,7 +75,8 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
   }
 
   private void start(CallbackContext callbackContext) {
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+        this.interval, this.distanceFilter, this);
   }
 
   private void stop(CallbackContext callbackContext) {
@@ -91,7 +93,7 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
     //
     PluginResult result = new PluginResult(PluginResult.Status.OK, this.locationToJSON(location));
     result.setKeepCallback(true);
-    locationUpdateCallback.sendPluginResult(result);
+    callbackContext.sendPluginResult(result);
   }
 
   @Override
@@ -121,13 +123,11 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
     try {
       data.put("latitude", location.getLatitude());
       data.put("longitude", location.getLongitude());
-      // data.put("latitude", b.getDouble("latitude"));
-      // data.put("longitude", b.getDouble("longitude"));
-      // data.put("accuracy", b.getDouble("accuracy"));
-      // data.put("altitude", b.getDouble("altitude"));
-      // data.put("timestamp", b.getDouble("timestamp"));
-      // data.put("speed", b.getDouble("speed"));
-      // data.put("heading", b.getDouble("heading"));
+      data.put("accuracy", location.getAccuracy());
+      data.put("altitude", location.getAltitude());
+      data.put("bearing", location.getBearing());
+      data.put("speed", location.getSpeed());
+      data.put("timestamp", location.getTime());
     } catch(JSONException e) {
       Log.d(TAG, "ERROR CREATING JSON" + e);
     }

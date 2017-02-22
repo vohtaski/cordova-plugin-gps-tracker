@@ -1,28 +1,24 @@
 var exec = require('cordova/exec');
+var emptyFn = function(){};
 
 module.exports = {
   config: {},
-  configure: function (config) {
+  configure: function (success, failure, config) {
     this.config = config;
-    var interval = (config.interval >= 0) ? config.interval : 1000, // milliseconds
-      debug = config.debug || false;
+    var interval     = (config.interval       >= 0) ? config.interval : 5000, // milliseconds
+      distanceFilter = (config.distanceFilter >= 0) ? config.distanceFilter : 5, // meters
+      debug          = config.debug || false;
 
-    exec(function () {}, function () {},
+    exec(success, failure,
       'GpsTracker',
       'configure',
-      [interval, debug]
+      [interval, distanceFilter, debug]
     );
   },
   start: function (success, failure) {
-    exec(success || function () {}, failure || function () {},
-      'GpsTracker',
-      'start',
-      []);
+    exec(success || emptyFn, failure || emptyFn, 'GpsTracker', 'start', []);
   },
   stop: function (success, failure) {
-    exec(success || function() {}, failure || function() {},
-      'GpsTracker',
-      'stop',
-      []);
+    exec(success || emptyFn, failure || emptyFn, 'GpsTracker', 'stop', []);
   },
 }
