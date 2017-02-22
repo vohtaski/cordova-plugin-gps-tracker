@@ -15,6 +15,9 @@ module.exports = {
       [interval, distanceFilter, debug]
     );
   },
+  echo: function (arg0, success, failure) {
+    exec(success || emptyFn, failure || emptyFn, 'GpsTracker', 'echo', [arg0]);
+  },
   start: function (success, failure) {
     exec(success || emptyFn, failure || emptyFn, 'GpsTracker', 'start', []);
   },

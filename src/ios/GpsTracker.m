@@ -1,17 +1,9 @@
-/********* GpsTracker.m Cordova Plugin Implementation *******/
-
+#import "GpsTracker.h"
 #import <Cordova/CDV.h>
-
-@interface GpsTracker : CDVPlugin {
-  // Member variables go here.
-}
-
-- (void)coolMethod:(CDVInvokedUrlCommand*)command;
-@end
 
 @implementation GpsTracker
 
-- (void)coolMethod:(CDVInvokedUrlCommand*)command
+- (void)echo:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* echo = [command.arguments objectAtIndex:0];

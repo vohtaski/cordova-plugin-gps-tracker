@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-gps-tracker" version="0.0.1">
   <name>GpsTracker</name>
+  <description>Gps tracking plugin for cordova</description>
+  <license>MIT</license>
+  <keywords>cordova,gps,tracking</keywords>
+
   <js-module name="GpsTracker" src="www/GpsTracker.js">
-    <clobbers target="cordova.plugins.GpsTracker"/>
+    <clobbers target="plugins.GpsTracker"/>
   </js-module>
+
   <platform name="android">
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="GpsTracker">
@@ -15,12 +20,14 @@
     </config-file>
     <source-file src="src/android/GpsTracker.java" target-dir="src/com.android.plugins/GpsTracker"/>
   </platform>
+
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
       <feature name="GpsTracker">
         <param name="ios-package" value="GpsTracker"/>
       </feature>
     </config-file>
+    <header-file src="src/ios/GpsTracker.h"/>
     <source-file src="src/ios/GpsTracker.m"/>
   </platform>
 </plugin>
