@@ -1,0 +1,24 @@
+{
+  "name": "cordova-plugin-gps-tracker",
+  "version": "0.0.1",
+  "description": "GPS tracking plugin for cordova",
+  "cordova": {
+    "id": "cordova-plugin-gps-tracker",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "gps",
+    "tracking",
+    "cordova-android",
+    "cordova-ios",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Evgeny Bogdanov",
+  "license": "MIT"
+}

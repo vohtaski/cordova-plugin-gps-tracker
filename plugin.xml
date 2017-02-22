@@ -3,7 +3,7 @@
   <name>GpsTracker</name>
   <description>Gps tracking plugin for cordova</description>
   <license>MIT</license>
-  <keywords>cordova,gps,tracking</keywords>
+  <keywords>cordova,gps,tracking,cordova-android,cordova-ios</keywords>
 
   <js-module name="GpsTracker" src="www/GpsTracker.js">
     <clobbers target="plugins.GpsTracker"/>
