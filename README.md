@@ -23,7 +23,16 @@ var GpsTracker = window.plugins.GpsTracker;
 // Congfigure Plugin
 GpsTracker.configure({
   distanceFilter: 5, // (Meters) How far you must move from the last point to trigger a location update
+  allowedAccuracy: 20, // (Meters) Data points with accuracy more than threshold will not be emitted
   interval: 9000, // (Milliseconds) Requested Interval in between location updates.
+}, function (location) {
+  location.latitude;
+  location.longitude;
+  location.accuracy;
+  location.altitude;
+  location.bearing;
+  location.speed;
+  location.timestamp;
 });
 
 GpsTracker.start();

@@ -5,14 +5,15 @@ module.exports = {
   config: {},
   configure: function (success, failure, config) {
     this.config = config;
-    var interval     = (config.interval       >= 0) ? config.interval : 5000, // milliseconds
-      distanceFilter = (config.distanceFilter >= 0) ? config.distanceFilter : 5, // meters
-      debug          = config.debug || false;
+    var interval      = (config.interval       >= 0) ? config.interval : 5000, // milliseconds
+      distanceFilter  = (config.distanceFilter >= 0) ? config.distanceFilter : 5, // meters
+      allowedAccuracy = (config.allowedAccuracy >= 0) ? config.allowedAccuracy : 20, // meters
+      debug           = config.debug || false;
 
     exec(success, failure,
       'GpsTracker',
       'configure',
-      [interval, distanceFilter, debug]
+      [interval, distanceFilter, allowedAccuracy, debug]
     );
   },
   echo: function (arg0, success, failure) {

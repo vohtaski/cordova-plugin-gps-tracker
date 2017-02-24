@@ -28,7 +28,8 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
   private static final String TAG = "GpsTrackerPlugin";
 
   private long interval = 2000;
-  private float distanceFilter = 5.0f;
+  private float distanceFilter = 2.0f;
+  private float allowedAccuracy = 20.0f;
   private boolean isDebugging = false;
 
   private CallbackContext callbackContext;  // Keeps track of the JS callback context.
@@ -56,10 +57,11 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
       result = true;
       this.callbackContext = callbackContext;
       try {
-        // [interval, distanceFilter, debug]
+        // [interval, distanceFilter, allowedAccuracy, debug]
         this.interval = Long.parseLong(args.getString(0));
         this.distanceFilter = Float.parseFloat(args.getString(1));
-        this.isDebugging = Boolean.parseBoolean(args.getString(2));
+        this.allowedAccuracy = Float.parseFloat(args.getString(2));
+        this.isDebugging = Boolean.parseBoolean(args.getString(3));
       } catch (JSONException e) {
         Log.d(TAG, "Json Exception" + e);
         callbackContext.error("JSON Exception" + e.getMessage());
@@ -86,14 +88,11 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
   @Override
   public void onLocationChanged(Location location) {
 
-    // String msg = "New Latitude: " + location.getLatitude()
-    //     + "New Longitude: " + location.getLongitude();
-    //
-    // Toast.makeText(cordova.getActivity().getBaseContext(), msg, Toast.LENGTH_LONG).show();
-    //
-    PluginResult result = new PluginResult(PluginResult.Status.OK, this.locationToJSON(location));
-    result.setKeepCallback(true);
-    callbackContext.sendPluginResult(result);
+    if (location.getAccuracy() < this.allowedAccuracy) {
+      PluginResult result = new PluginResult(PluginResult.Status.OK, this.locationToJSON(location));
+      result.setKeepCallback(true);
+      callbackContext.sendPluginResult(result);
+    }
   }
 
   @Override
