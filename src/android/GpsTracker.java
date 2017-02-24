@@ -29,7 +29,7 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
 
   private long interval = 2000;
   private float distanceFilter = 2.0f;
-  private float allowedAccuracy = 20.0f;
+  private long allowedAccuracy = 20;
   private boolean isDebugging = false;
 
   private CallbackContext callbackContext;  // Keeps track of the JS callback context.
@@ -60,7 +60,7 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
         // [interval, distanceFilter, allowedAccuracy, debug]
         this.interval = Long.parseLong(args.getString(0));
         this.distanceFilter = Float.parseFloat(args.getString(1));
-        this.allowedAccuracy = Float.parseFloat(args.getString(2));
+        this.allowedAccuracy = Long.parseLong(args.getString(2));
         this.isDebugging = Boolean.parseBoolean(args.getString(3));
       } catch (JSONException e) {
         Log.d(TAG, "Json Exception" + e);

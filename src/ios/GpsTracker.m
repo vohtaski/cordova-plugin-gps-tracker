@@ -3,7 +3,7 @@
 @implementation GpsTracker {
   bool isDebugging;
   double distanceFilter;
-  double allowedAccuracy;
+  long allowedAccuracy;
   long interval;
 
   double latitude;
@@ -87,7 +87,7 @@
 
   interval = [[command.arguments objectAtIndex:0] longValue];
   distanceFilter = [[command.arguments objectAtIndex:1] doubleValue];
-  allowedAccuracy = [[command.arguments objectAtIndex:2] boolValue];
+  allowedAccuracy = [[command.arguments objectAtIndex:2] longValue];
   isDebugging = [[command.arguments objectAtIndex:3] boolValue];
 }
 
