@@ -1,6 +1,8 @@
 #import "GpsTracker.h"
 
 @implementation GpsTracker {
+  bool isStarted;
+
   bool isDebugging;
   double distanceFilter;
   long allowedAccuracy;
@@ -17,14 +19,15 @@
 
 - (GpsTracker*)init
 {
-    self = [super init];
-    if (self) {
-        isDebugging = false;
-        distanceFilter = 2.0;
-        allowedAccuracy = 20;
-        interval = 2000;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    isStarted = NO;
+    isDebugging = false;
+    distanceFilter = 2.0;
+    allowedAccuracy = 20;
+    interval = 2000;
+  }
+  return self;
 }
 
 - (void)startLocationUpdates
@@ -43,6 +46,8 @@
     self.locationManager.distanceFilter = distanceFilter; // meters
 
     [self.locationManager startUpdatingLocation];
+
+    [self.locationManager requestAlwaysAuthorization];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -110,11 +115,21 @@
 
 - (void)start:(CDVInvokedUrlCommand*)command
 {
+  if (isStarted) {
+    return;
+  }
+
   [self startLocationUpdates];
+  isStarted = YES;
 }
 
 - (void)stop:(CDVInvokedUrlCommand*)command
 {
+  if (!isStarted) {
+    return;
+  }
+
+  isStarted = NO;
   [self.locationManager stopUpdatingLocation];
 }
 

@@ -27,6 +27,8 @@ import android.os.Bundle;
 public class GpsTracker extends CordovaPlugin implements LocationListener {
   private static final String TAG = "GpsTrackerPlugin";
 
+  private boolean isStarted = false;
+
   private long interval = 2000;
   private float distanceFilter = 2.0f;
   private long allowedAccuracy = 20;
@@ -77,11 +79,19 @@ public class GpsTracker extends CordovaPlugin implements LocationListener {
   }
 
   private void start(CallbackContext callbackContext) {
+    if (isStarted) {
+      return;
+    }
     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
         this.interval, this.distanceFilter, this);
+    isStarted = true;
   }
 
   private void stop(CallbackContext callbackContext) {
+    if (!isStarted) {
+      return;
+    }
+    isStarted = false;
     locationManager.removeUpdates(GpsTracker.this);
   }
 
