@@ -45,7 +45,9 @@
     // Movement threshold for new events.
     self.locationManager.distanceFilter = distanceFilter; // meters
 
-    self.locationManager.allowsBackgroundLocationUpdates = YES;
+    if ([self.locationManager respondsToSelector:@selector(setAllowsBackgroundLocationUpdates:)]) {
+      [self.locationManager setAllowsBackgroundLocationUpdates:YES];
+    }
 
     [self.locationManager startUpdatingLocation];
 
