@@ -22,6 +22,18 @@
   </platform>
 
   <platform name="ios">
+    <preference name="BACKGROUND_MODE_LOCATION" default="&lt;string&gt;location&lt;/string&gt;" />
+    <preference name="LOCATION_ALWAYS_USAGE_DESCRIPTION" default="Background location-tracking is required" />
+    <config-file target="*-Info.plist" parent="UIBackgroundModes">
+      <array>
+        $BACKGROUND_MODE_LOCATION
+      </array>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
+      <string>$LOCATION_ALWAYS_USAGE_DESCRIPTION</string>
+    </config-file>
+
     <config-file parent="/*" target="config.xml">
       <feature name="GpsTracker">
         <param name="ios-package" value="GpsTracker"/>
